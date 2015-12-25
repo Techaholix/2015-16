@@ -62,8 +62,17 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("K9Line", K9Line.class);
     manager.register ("PushBotAuto", PushBotAuto.class);
     manager.register ("PushBotManual", PushBotManual.class);
-
-
+    manager.register("hogwartsconfig", hogwartsconfig.class);
+      manager.register("armtest", armtest.class);
+      manager.register("encodertest", encodertest.class);
+      manager.register("frontrightdrive", frontrightdrive.class);
+      manager.register("fronrightmotor", fronrightmotor.class);
+      manager.register("opdtest", opdtest.class);
+      manager.register("opdtttest", opdtttest.class);
+      manager.register("servopos0", servopos0.class);
+      manager.register("testrun", testrun.class);
+    manager.register("hogwartsconfig2", hogwartsconfig2.class);
+    manager.register("Camphalfblood", Camphalfblood.class);
 
     /*
      * Uncomment any of the following lines if you want to register an op mode.
