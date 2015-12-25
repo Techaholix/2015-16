@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class hogwartsconfig extends OpMode {
     DcMotor dc_right_front;
-    Servo frontrights;
+    Servo srv_right_front;
     TouchSensor touchsensor;
     OpticalDistanceSensor opd;
     ElapsedTime timer;
@@ -26,7 +26,7 @@ public class hogwartsconfig extends OpMode {
     State state;
     double BACKUP_TIME = 0.8;
     double TURN_TIME = 0.7;
-    final static int ENCODER_CPR = 2000;
+    final static int ENCODER_CPR = 100000;
     final static double GEAR_RATIO = 1;
     final static int WHEEL_DIAMETER = 4;
     final static int DISTANCE = 24;
@@ -37,13 +37,13 @@ public class hogwartsconfig extends OpMode {
     @Override
     public void init() {
         dc_right_front = hardwareMap.dcMotor.get("dc_right_front");
-        frontrights = hardwareMap.servo.get("srv_right_front");
+        srv_right_front = hardwareMap.servo.get("srv_right_front");
         touchsensor = hardwareMap.touchSensor.get("sensor_touch");
         opd = hardwareMap.opticalDistanceSensor.get("sensor_opd");
        // dc_right_front.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
         state = State.Drive;
         timer = new ElapsedTime();
-        frontrights.setPosition(1.0);
+        srv_right_front.setPosition(1.0);
 
     }
 
@@ -52,6 +52,7 @@ public class hogwartsconfig extends OpMode {
         // for testing
        // dc_right_front.setPower(1.0);
 
+
         double current_target_position = Math.abs(dc_right_front.getCurrentPosition());
         double current_reflectance_val = opd.getLightDetected();
 
@@ -59,7 +60,7 @@ public class hogwartsconfig extends OpMode {
         telemetry.addData("Current target position value", current_target_position);
         telemetry.addData("Current State", state.name());
         telemetry.addData("Current power ", dc_right_front.getPower());
-        telemetry.addData("Servo front right position", frontrights.getPosition());
+        telemetry.addData("Servo front right position", srv_right_front.getPosition());
         telemetry.addData("DC front right position", Math.abs(dc_right_front.getCurrentPosition()));
         telemetry.addData("encoder value we want to set", COUNTS);
         telemetry.addData("reflectance threshhold", threshold);
@@ -73,10 +74,10 @@ public class hogwartsconfig extends OpMode {
             } else if (current_reflectance_val >= threshold) {
                 telemetry.addData("we are close to an object", current_reflectance_val);
                 // we reached turn left
-                frontrights.setPosition(0.0);
-                dc_right_front.setPower(1.0);
+                srv_right_front.setPosition(0.0);
             }
-        } else {         telemetry.addData("4", "Inside else...");
+        } else {
+            telemetry.addData("4", "Inside else...");
             // keep moving with full power
             dc_right_front.setPower(1.0);
         }
@@ -86,7 +87,7 @@ public class hogwartsconfig extends OpMode {
             dc_right_front.setPower(0.0);
             dc_right_front.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
             dc_right_front.setTargetPosition(0);
-            frontrights.setPosition(1.0);
+            srv_right_front.setPosition(1.0);
 
             telemetry.addData("Touch sensor is pressed", touchsensor.getValue());
         }

@@ -19,7 +19,7 @@ public class opdtest extends OpMode {
 
     enum State {Drive, Backup, Turn}
 
-    State state;
+  State state;
 
     double BACKUP_TIME = 0.8;
     double TURN_TIME = 0.7;
@@ -27,8 +27,6 @@ public class opdtest extends OpMode {
     @Override
     public void init() {
         opd = hardwareMap.opticalDistanceSensor.get("opd");
-        dc_right_front = hardwareMap.dcMotor.get("dc_right_front");
-        dc_right_front.setDirection(DcMotor.Direction.REVERSE);
         state = State.Drive;
         timer = new ElapsedTime();
     }
@@ -36,33 +34,35 @@ public class opdtest extends OpMode {
     @Override
     public void loop() {
         double reflectance = opd.getLightDetected();
-
-        switch (state) {
-            case Drive:
-                if (reflectance < threshold) {
-                    dc_right_front.setPower(0);
-                    state = State.Backup;
-                    timer.reset();
-                } else {
-                    dc_right_front.setPower(0.15);
-                }
-                break;
-            case Backup:
-                dc_right_front.setPower(-0.25);
-
-                if(timer.time() >= BACKUP_TIME) {
-                    state = State.Turn;
-                    timer.reset();
-                }
-                break;
-            case Turn:
-                dc_right_front.setPower(0.15);
-                if(timer.time() >= TURN_TIME) {
-                    state = State.Drive;
-                }
-                break;
-        }
-        telemetry.addData("Current State", state.name());
+        double reflectanceRaw = opd.getLightDetectedRaw();
+      //  telemetry.addData("Current State", state.name());
         telemetry.addData("Reflectance Value",reflectance);
+        telemetry.addData("RefletanceRaw", reflectanceRaw);
+
+//        switch (state) {
+//            case Drive:
+//                if (reflectance < threshold) {
+//                    dc_right_front.setPower(0);
+//                    state = State.Backup;
+//                    timer.reset();
+//                } else {
+//                    dc_right_front.setPower(0.15);
+//                }
+//                break;
+//            case Backup:
+//                dc_right_front.setPower(-0.25);
+//
+//                if(timer.time() >= BACKUP_TIME) {
+//                    state = State.Turn;
+//                    timer.reset();
+//                }
+//                break;
+//            case Turn:
+//                dc_right_front.setPower(0.15);
+//                if(timer.time() >= TURN_TIME) {
+//                    state = State.Drive;
+//                }
+//                break;
+//        }
     }
 }
