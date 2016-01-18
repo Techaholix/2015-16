@@ -15,7 +15,7 @@ public class frontrightdrive extends OpMode {
 
     @Override
     public void loop() {
-        frontdrive.setPower(1);
+        frontdrive.setPower(-0.2);
 
     }
 }

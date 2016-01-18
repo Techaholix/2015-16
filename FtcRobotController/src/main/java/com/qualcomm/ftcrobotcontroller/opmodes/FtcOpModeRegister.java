@@ -48,14 +48,14 @@ public class FtcOpModeRegister implements OpModeRegister {
   public void register(OpModeManager manager) {
 
     /*
-     * register your op modes here.
+     * register your op mod
+
+    manager.register("NullOp", NullOp.class);es here.
      * The first parameter is the name of the op mode
      * The second parameter is the op mode class property
      *
      * If two or more op modes are registered with the same name, the app will display an error.
      */
-
-    manager.register("NullOp", NullOp.class);
 
     //manager.register("MatrixK9TeleOp", MatrixK9TeleOp.class);
     manager.register("K9TeleOp", K9TeleOp.class);
@@ -73,8 +73,12 @@ public class FtcOpModeRegister implements OpModeRegister {
       manager.register("testrun", testrun.class);
     manager.register("hogwartsconfig2", hogwartsconfig2.class);
     manager.register("Camphalfblood", Camphalfblood.class);
+    manager.register("Camphalfbloodsweep", Camphalfbloodsweep.class);
+    manager.register("telemetrydtta",telemetrydtta.class);
+    manager.register("onlymotor", onlymotor.class);
 
     /*
+
      * Uncomment any of the following lines if you want to register an op mode.
      */
     manager.register("MR Gyro Test", MRGyroTest.class);
