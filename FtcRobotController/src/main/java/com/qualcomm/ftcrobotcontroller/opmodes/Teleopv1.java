@@ -22,6 +22,7 @@ public class Teleopv1 extends OpMode {
     Servo boxmover;
     Servo boxturner;
     Boolean sideways;
+
     @Override
     public void init() {
         dcfrontright = hardwareMap.dcMotor.get("dc_front_right");
@@ -44,25 +45,25 @@ public class Teleopv1 extends OpMode {
     public void loop() {
         telemetry.addData("positionBoxMover", boxmover.getPosition());
 
-        if (gamepad1.dpad_up){
+        if (gamepad1.dpad_up) {
             setStraightWheel();
         }
-        if (gamepad1.dpad_right){
+        if (gamepad1.dpad_right) {
             setSidewayswheel();
         }
 
 
-        dcfrontright.setPower(gamepad1.right_stick_y );
-      if(sideways){
-          dcfrontleft.setPower(gamepad1.right_stick_y *-1);
-      } else {
-          dcfrontleft.setPower(gamepad1.right_stick_y *-1);
-      }
-         if (sideways){
-             dcbackright.setPower(gamepad1.right_stick_y );
-         } else {
-             dcbackright.setPower(gamepad1.right_stick_y);
-         }
+        dcfrontright.setPower(gamepad1.right_stick_y);
+        if (sideways) {
+            dcfrontleft.setPower(gamepad1.right_stick_y * -1);
+        } else {
+            dcfrontleft.setPower(gamepad1.right_stick_y * -1);
+        }
+        if (sideways) {
+            dcbackright.setPower(gamepad1.right_stick_y);
+        } else {
+            dcbackright.setPower(gamepad1.right_stick_y);
+        }
         dcbackleft.setPower(gamepad1.right_stick_y * -1);
 
         if (gamepad2.left_bumper) {
@@ -79,14 +80,20 @@ public class Teleopv1 extends OpMode {
 
         sweeperarm.setPower(gamepad2.right_stick_y);
 
-        setBoxMoverposition();
+        if (gamepad2.y) {
+            setBoxMoverForward();
+        } else if (gamepad2.a) {
+            setBoxMoverBackward();
+        }
+
 
         boxturner.setPosition(Math.abs(gamepad2.left_stick_y));
 
         printTelemetry();
 
     }
-    private  void printTelemetry () {
+
+    private void printTelemetry() {
 //        telemetry.addData("right_stick_y", gamepad1.right_stick_y);
 //        telemetry.addData("right_stick_x", gamepad1.right_stick_x);
 //        telemetry.addData("left_stick_y", gamepad1.left_stick_y);
@@ -100,7 +107,8 @@ public class Teleopv1 extends OpMode {
         telemetry.addData("position %f", boxmover.getPosition());
 
     }
-    private void setStraightWheel (){
+
+    private void setStraightWheel() {
         sideways = false;
         srvfrontright.setPosition(0.85);
         srvfrontleft.setPosition(0.75);
@@ -108,29 +116,38 @@ public class Teleopv1 extends OpMode {
         srvbackleft.setPosition(0.85);
         return;
     }
-    private  void setSidewayswheel() {
+
+    private void setSidewayswheel() {
         sideways = true;
         srvfrontright.setPosition(0.0);
         srvfrontleft.setPosition(0.0);
         srvbackright.setPosition(0.0);
         srvbackleft.setPosition(0.0);
     }
-    private  void setBoxMoverposition () {
-        float newposition = 0.0f;
-        if (gamepad2.x) {
-            newposition = (float) Math.abs(boxmover.getPosition()) + 0.01f;
-            if (newposition > 1) {
-                newposition = 1.0f;
-            }
-            boxmover.setPosition(newposition);
+
+    private void setBoxMoverForward() {
+        double newposition = boxmover.getPosition();
+        telemetry.addData("while forward current Position", boxmover.getPosition());
+        newposition = (double) Math.abs(newposition) + 0.002f;
+        telemetry.addData("new Forward Position", newposition);
+        if (newposition >= 0.7) {
+            newposition = 0.7f;
         }
-        if (gamepad2.b) {
-            newposition = (float) Math.abs(boxmover.getPosition()) - 0.01f;
-            if (newposition < 0) {
-                newposition = 0.0f;
-            }
-        }
+        boxmover.setPosition(newposition);
     }
+
+    private void setBoxMoverBackward() {
+        double newposition = boxmover.getPosition();
+        telemetry.addData("while backword current Position", boxmover.getPosition());
+        newposition = (double) Math.abs(newposition) - 0.002f;
+        telemetry.addData("new Backward Position", newposition);
+        if (newposition <= 0.3) {
+            newposition = 0.3f;
+        }
+        boxmover.setPosition(newposition);
+    }
+
+
 
     // unused function / test functions
     private void setDirectionNotUsed () {
