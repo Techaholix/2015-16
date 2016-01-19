@@ -56,32 +56,32 @@ public class FtcOpModeRegister implements OpModeRegister {
      *
      * If two or more op modes are registered with the same name, the app will display an error.
      */
-
-    //manager.register("MatrixK9TeleOp", MatrixK9TeleOp.class);
-    manager.register("K9TeleOp", K9TeleOp.class);
-    manager.register("K9Line", K9Line.class);
-    manager.register ("PushBotAuto", PushBotAuto.class);
-    manager.register ("PushBotManual", PushBotManual.class);
-    manager.register("hogwartsconfig", hogwartsconfig.class);
-      manager.register("armtest", armtest.class);
-      manager.register("encodertest", encodertest.class);
-      manager.register("frontrightdrive", frontrightdrive.class);
-      manager.register("fronrightmotor", fronrightmotor.class);
-      manager.register("opdtest", opdtest.class);
-      manager.register("opdtttest", opdtttest.class);
-      manager.register("servopos0", servopos0.class);
-      manager.register("testrun", testrun.class);
-    manager.register("hogwartsconfig2", hogwartsconfig2.class);
-    manager.register("Camphalfblood", Camphalfblood.class);
-    manager.register("Camphalfbloodsweep", Camphalfbloodsweep.class);
-    manager.register("telemetrydtta",telemetrydtta.class);
-    manager.register("onlymotor", onlymotor.class);
+//
+//    //manager.register("MatrixK9TeleOp", MatrixK9TeleOp.class);
+//    manager.register("K9TeleOp", K9TeleOp.class);
+//    manager.register("K9Line", K9Line.class);
+//    manager.register ("PushBotAuto", PushBotAuto.class);
+//    manager.register ("PushBotManual", PushBotManual.class);
+//    manager.register("hogwartsconfig", hogwartsconfig.class);
+//      manager.register("armtest", armtest.class);
+//      manager.register("encodertest", encodertest.class);
+//      manager.register("frontrightdrive", frontrightdrive.class);
+//      manager.register("fronrightmotor", fronrightmotor.class);
+//      manager.register("opdtest", opdtest.class);
+//      manager.register("opdtttest", opdtttest.class);
+//      manager.register("servopos0", servopos0.class);
+//      manager.register("testrun", testrun.class);
+//    manager.register("hogwartsconfig2", hogwartsconfig2.class);
+//    manager.register("Camphalfblood", Camphalfblood.class);
+//    manager.register("Camphalfbloodsweep", Camphalfbloodsweep.class);
+//    manager.register("telemetrydtta",telemetrydtta.class);
+    manager.register("Teleopv1", Teleopv1.class);
 
     /*
 
      * Uncomment any of the following lines if you want to register an op mode.
      */
-    manager.register("MR Gyro Test", MRGyroTest.class);
+//    manager.register("MR Gyro Test", MRGyroTest.class);
 
     //manager.register("AdafruitRGBExample", AdafruitRGBExample.class);
     //manager.register("ColorSensorDriver", ColorSensorDriver.class);

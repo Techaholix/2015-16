@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Created by techaholix on 1/16/2016.
  */
-public class onlymotor extends OpMode {
+public class Teleopv1 extends OpMode {
     DcMotor dcfrontright;
     DcMotor dcfrontleft;
     DcMotor dcbackright;
@@ -42,6 +42,7 @@ public class onlymotor extends OpMode {
 
     @Override
     public void loop() {
+        telemetry.addData("positionBoxMover", boxmover.getPosition());
 
         if (gamepad1.dpad_up){
             setStraightWheel();
@@ -52,21 +53,17 @@ public class onlymotor extends OpMode {
 
 
         dcfrontright.setPower(gamepad1.right_stick_y );
-       // srvfrontright.setPosition(Math.abs(gamepad1.right_stick_y));
       if(sideways){
           dcfrontleft.setPower(gamepad1.right_stick_y *-1);
       } else {
           dcfrontleft.setPower(gamepad1.right_stick_y *-1);
       }
-        //srvfrontleft.setPosition(Math.abs(gamepad1.right_stick_y));
          if (sideways){
              dcbackright.setPower(gamepad1.right_stick_y );
          } else {
              dcbackright.setPower(gamepad1.right_stick_y);
          }
-        //srvbackright.setPosition(Math.abs(gamepad1.right_stick_y - 1));
         dcbackleft.setPower(gamepad1.right_stick_y * -1);
-        //srvbackleft.setPosition(Math.abs(gamepad1.right_stick_y));
 
         if (gamepad2.left_bumper) {
             arm2.setPower(-1.0);
@@ -80,19 +77,10 @@ public class onlymotor extends OpMode {
             arm1.setPower(gamepad2.right_trigger);
         }
 
-        sweeperarm.setPower(gamepad1.right_stick_y);
+        sweeperarm.setPower(gamepad2.right_stick_y);
 
-//       if (gamepad2.y){
-//            sweeperarm.setPower(-1.0);
-//        }else{
-//            sweeperarm.setPower(0.0);
-//        }
-//        if (gamepad2.a) {
-//            sweeperarm.setPower(1.0);
-//        }else{
-//            sweeperarm.setPower(0.0);
-//        }
-        boxmover.setPosition(Math.abs(gamepad2.right_stick_y));
+        setBoxMoverposition();
+
         boxturner.setPosition(Math.abs(gamepad2.left_stick_y));
 
         printTelemetry();
@@ -126,6 +114,22 @@ public class onlymotor extends OpMode {
         srvfrontleft.setPosition(0.0);
         srvbackright.setPosition(0.0);
         srvbackleft.setPosition(0.0);
+    }
+    private  void setBoxMoverposition () {
+        float newposition = 0.0f;
+        if (gamepad2.x) {
+            newposition = (float) Math.abs(boxmover.getPosition()) + 0.01f;
+            if (newposition > 1) {
+                newposition = 1.0f;
+            }
+            boxmover.setPosition(newposition);
+        }
+        if (gamepad2.b) {
+            newposition = (float) Math.abs(boxmover.getPosition()) - 0.01f;
+            if (newposition < 0) {
+                newposition = 0.0f;
+            }
+        }
     }
 
     // unused function / test functions
