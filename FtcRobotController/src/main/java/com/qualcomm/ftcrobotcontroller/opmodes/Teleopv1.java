@@ -22,7 +22,7 @@ public class Teleopv1 extends OpMode {
     Servo boxmover;
     Servo boxturner;
     Boolean sideways;
-
+    double boxMoverPosition = 0.8f;
     @Override
     public void init() {
         dcfrontright = hardwareMap.dcMotor.get("dc_front_right");
@@ -66,6 +66,15 @@ public class Teleopv1 extends OpMode {
         }
         dcbackleft.setPower(gamepad1.right_stick_y * -1);
 
+//        if (gamepad1.x){
+//            boxmover.setPosition(0.2);
+//        }
+//        if (gamepad1.y){
+//            boxmover.setPosition(0.6);
+//        }
+//        if (gamepad1.b){
+//            boxmover.setPosition(0.8);
+//        }
         if (gamepad2.left_bumper) {
             arm2.setPower(-1.0);
             telemetry.addData("leftbumppress", gamepad2.left_bumper);
@@ -126,28 +135,25 @@ public class Teleopv1 extends OpMode {
     }
 
     private void setBoxMoverForward() {
-        double newposition = boxmover.getPosition();
+
         telemetry.addData("while forward current Position", boxmover.getPosition());
-        newposition = (double) Math.abs(newposition) + 0.002f;
-        telemetry.addData("new Forward Position", newposition);
-        if (newposition >= 0.7) {
-            newposition = 0.7f;
+        boxMoverPosition = (double) Math.abs(boxMoverPosition + 0.0055f);
+        telemetry.addData("new Forward Position", boxMoverPosition);
+        if (boxMoverPosition >= 0.8) {
+            boxMoverPosition = 0.8f;
         }
-        boxmover.setPosition(newposition);
+        boxmover.setPosition(boxMoverPosition);
     }
 
     private void setBoxMoverBackward() {
-        double newposition = boxmover.getPosition();
         telemetry.addData("while backword current Position", boxmover.getPosition());
-        newposition = (double) Math.abs(newposition) - 0.002f;
-        telemetry.addData("new Backward Position", newposition);
-        if (newposition <= 0.3) {
-            newposition = 0.3f;
+        boxMoverPosition = (double) Math.abs(boxMoverPosition - 0.0055f);
+        telemetry.addData("new Backward Position", boxMoverPosition);
+        if (boxMoverPosition <= 0.3) {
+            boxMoverPosition = 0.3f;
         }
-        boxmover.setPosition(newposition);
+        boxmover.setPosition(boxMoverPosition);
     }
-
-
 
     // unused function / test functions
     private void setDirectionNotUsed () {
