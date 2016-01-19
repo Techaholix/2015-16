@@ -1,0 +1,6 @@
+<root>
+  <item name='com.qualcomm.robotcore.hardware.Gamepad right_trigger'>
+    <annotation name='java.lang.annotation.Deprecated' />
+    <annotation name='android.support.annotation.NonNull' />
+  </item>
+</root>
