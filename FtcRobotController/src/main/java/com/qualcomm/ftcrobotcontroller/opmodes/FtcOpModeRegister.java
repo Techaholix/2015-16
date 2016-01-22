@@ -76,6 +76,14 @@ public class FtcOpModeRegister implements OpModeRegister {
 //    manager.register("Camphalfbloodsweep", Camphalfbloodsweep.class);
 //    manager.register("telemetrydtta",telemetrydtta.class);
     manager.register("Teleopv1", Teleopv1.class);
+    manager.register("TestWheels", TestWheels.class);
+    manager.register("TestSweepr", TestSweeper.class);
+    manager.register("TestBoxturner", TestBoxturner.class);
+    manager.register("TestBoxmover", TestBoxmover.class);
+
+
+
+
 
     /*
 
