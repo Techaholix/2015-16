@@ -81,6 +81,7 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("TestBoxturner", TestBoxturner.class);
     manager.register("TestBoxmover", TestBoxmover.class);
     manager.register("TestEncoder", TestEncoder.class);
+    manager.register("TestTurnLeft",TestTurnLeft.class);
 
 
 
