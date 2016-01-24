@@ -15,12 +15,9 @@ public class Teleopv1 extends OpMode {
     DcMotor sweeperarm;
     DcMotor arm1;
     DcMotor arm2;
-    Servo boxmover;
+    Servo boxarm;
     Servo boxturner;
-    double boxMoverPosition = 0.3f;
-    double boxturnerPosition = 0.3f;
-
-
+   double boxArmPosition = 0.8f;
     @Override
     public void init() {
         dcfrontright = hardwareMap.dcMotor.get("dc_front_right");
@@ -30,21 +27,34 @@ public class Teleopv1 extends OpMode {
         sweeperarm = hardwareMap.dcMotor.get("dc_sweep");
         arm1 = hardwareMap.dcMotor.get("arm1");
         arm2 = hardwareMap.dcMotor.get("arm2");
-        boxmover = hardwareMap.servo.get("boxmover");
+        boxarm = hardwareMap.servo.get("boxarm");
         boxturner = hardwareMap.servo.get("boxturner");
-        //boxmover.setPosition(boxMoverPosition);
-        boxturner.setPosition(boxturnerPosition);
+        boxturner.setPosition(1.0);
     }
-
     @Override
     public void loop() {
-        telemetry.addData("positionBoxMover", boxmover.getPosition());
-
-            dcfrontright.setPower(gamepad1.right_stick_y + gamepad1.left_stick_x);
-            dcfrontleft.setPower((gamepad1.right_stick_y + gamepad1.left_stick_x) * -1);
-            dcbackright.setPower(gamepad1.right_stick_y + gamepad1.left_stick_x);
-            dcbackleft.setPower((gamepad1.right_stick_y + gamepad1.left_stick_x) * -1);
-
+        telemetry.addData("positionBoxMover", boxarm.getPosition());
+        if (gamepad1.right_stick_y != 0) {
+            dcfrontright.setPower(gamepad1.right_stick_y);
+            dcfrontleft.setPower(gamepad1.right_stick_y * -1);
+            dcbackright.setPower(gamepad1.right_stick_y);
+            dcbackleft.setPower(gamepad1.right_stick_y * -1);
+        }else if (gamepad1.left_stick_x > 0) {
+            dcfrontright.setPower(0.2);
+            dcfrontleft.setPower(gamepad1.left_stick_x);
+            dcbackright.setPower(0.2);
+            dcbackleft.setPower(gamepad1.left_stick_x);
+        } else if (gamepad1.left_stick_x < 0) {
+            dcfrontright.setPower(gamepad1.left_stick_x);
+            dcfrontleft.setPower(-0.2);
+            dcbackright.setPower(gamepad1.left_stick_x);
+            dcbackleft.setPower(-0.2);
+        } else if (gamepad1.left_stick_x == 0) {
+            dcfrontright.setPower(0.0);
+            dcfrontleft.setPower(0.0);
+            dcbackright.setPower(0.0);
+            dcbackleft.setPower(0.0);
+        }
         if (gamepad2.left_bumper) {
             arm2.setPower(-1.0);
             telemetry.addData("leftbumppress", gamepad2.left_bumper);
@@ -58,46 +68,45 @@ public class Teleopv1 extends OpMode {
         }
         sweeperarm.setPower(gamepad2.right_stick_y);
         if (gamepad2.y) {
-            setBoxMoverForward();
+            setBoxArmForward();
         } else if (gamepad2.a) {
-            setBoxMoverBackward();
+            setBoxArmBackward();
         }
-        boxturner.setPosition(Math.abs(gamepad2.left_stick_y));
-        printTelemetry();
+        if(gamepad2.left_stick_y != 0) {
+            boxturner.setPosition(Math.abs(gamepad2.left_stick_y));
+            printTelemetry();
+        }
     }
-
     private void printTelemetry() {
 //        telemetry.addData("right_stick_y", gamepad1.right_stick_y);
 //        telemetry.addData("right_stick_x", gamepad1.right_stick_x);
 //        telemetry.addData("left_stick_y", gamepad1.left_stick_y);
 //        telemetry.addData("left_stick_x", gamepad1.left_stick_x);
-        telemetry.addData("right_stick_y_gp2", gamepad2.right_stick_y);
-        telemetry.addData("connection info %s", boxmover.getConnectionInfo());
-        telemetry.addData("connection info %s", boxmover.getController().getConnectionInfo());
-        telemetry.addData("device name %s", boxmover.getDeviceName());
-        telemetry.addData("direction %s", boxmover.getDirection());
-        telemetry.addData("port number %d", boxmover.getPortNumber());
-        telemetry.addData("position %f", boxmover.getPosition());
-
+//        telemetry.addData("right_stick_y_gp2", gamepad2.right_stick_y);
+//        telemetry.addData("connection info %s", boxarm.getConnectionInfo());
+//        telemetry.addData("connection info %s", boxarm.getController().getConnectionInfo());
+//        telemetry.addData("device name %s", boxarm.getDeviceName());
+//        telemetry.addData("direction %s", boxarm.getDirection());
+//        telemetry.addData("port number %d", boxarm.getPortNumber());
+//        telemetry.addData("position %f", boxarm.getPosition());
     }
-    private void setBoxMoverForward() {
+    private void setBoxArmForward() {
 
-        telemetry.addData("while forward current Position", boxmover.getPosition());
-        boxMoverPosition = (double) Math.abs(boxMoverPosition + 0.0055f);
-        telemetry.addData("new Forward Position", boxMoverPosition);
-        if (boxMoverPosition >= 0.8) {
-            boxMoverPosition = 0.8f;
+        telemetry.addData("while forward current Position", boxarm.getPosition());
+       double newboxArmPosition = (double) Math.abs(boxArmPosition + 0.0055f);
+        telemetry.addData("new Forward Position", newboxArmPosition);
+        if (newboxArmPosition >= 0.8) {
+            newboxArmPosition = 0.8f;
         }
-        boxmover.setPosition(boxMoverPosition);
+        boxarm.setPosition(newboxArmPosition);
     }
-
-    private void setBoxMoverBackward() {
-        telemetry.addData("while backword current Position", boxmover.getPosition());
-        boxMoverPosition = (double) Math.abs(boxMoverPosition - 0.0055f);
-        telemetry.addData("new Backward Position", boxMoverPosition);
-        if (boxMoverPosition <= 0.3) {
-            boxMoverPosition = 0.3f;
+    private void setBoxArmBackward() {
+        telemetry.addData("while backword current Position", boxarm.getPosition());
+       double newboxArmPosition = (double) Math.abs(boxArmPosition - 0.0055f);
+        telemetry.addData("new Backward Position", newboxArmPosition);
+        if (newboxArmPosition <= 0.3) {
+            newboxArmPosition = 0.3f;
         }
-        boxmover.setPosition(boxMoverPosition);
+        boxarm.setPosition(newboxArmPosition);
     }
 }
