@@ -12,6 +12,10 @@ public class TestWheels extends OpMode {
     DcMotor dcfrontleft;
     DcMotor dcbackright;
     DcMotor dcbackleft;
+    double rightfrontpower = 0;
+    double leftfrontpower = 0;
+    double rightbackpower = 0;
+    double leftbackpower = 0;
 
     @Override
     public void init() {
@@ -23,16 +27,28 @@ public class TestWheels extends OpMode {
 
     @Override
     public void loop() {
+
         if (gamepad1.right_stick_y != 0) {
             dcfrontright.setPower(gamepad1.right_stick_y);
             dcfrontleft.setPower(gamepad1.right_stick_y * -1);
             dcbackright.setPower(gamepad1.right_stick_y);
             dcbackleft.setPower(gamepad1.right_stick_y * -1);
-        } else if (gamepad1.left_stick_x != 0) {
+        }else if (gamepad1.left_stick_x > 0) {
+                dcfrontright.setPower(0.2);
+                dcfrontleft.setPower(gamepad1.left_stick_x);
+                dcbackright.setPower(0.2);
+                dcbackleft.setPower(gamepad1.left_stick_x);
+        } else if (gamepad1.left_stick_x < 0) {
             dcfrontright.setPower(gamepad1.left_stick_x);
-            dcfrontleft.setPower(gamepad1.left_stick_x);
+            dcfrontleft.setPower(-0.2);
             dcbackright.setPower(gamepad1.left_stick_x);
-            dcbackleft.setPower(gamepad1.left_stick_x);
+            dcbackleft.setPower(-0.2);
+         } else if (gamepad1.left_stick_x == 0) {
+            dcfrontright.setPower(0.0);
+            dcfrontleft.setPower(0.0);
+            dcbackright.setPower(0.0);
+            dcbackleft.setPower(0.0);
+        }
         }
     }
-}
+

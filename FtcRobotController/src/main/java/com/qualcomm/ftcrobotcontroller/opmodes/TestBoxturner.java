@@ -12,7 +12,8 @@ public class TestBoxturner extends OpMode {
     @Override
     public void init() {
         boxturner = hardwareMap.servo.get("boxturner");
-        boxturner.setPosition(0.75);
+        boxturner.setPosition(1.0
+        );
     }
 
     @Override

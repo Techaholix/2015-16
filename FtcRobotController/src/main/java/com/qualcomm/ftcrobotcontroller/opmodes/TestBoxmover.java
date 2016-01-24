@@ -8,43 +8,47 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by upawar on 1/21/16.
  */
 public class TestBoxmover extends OpMode {
-    Servo boxmover;
-    double boxMoverPosition = 0.8f;
+    Servo boxarm;
 
     @Override
     public void init() {
-        boxmover = hardwareMap.servo.get("boxmover");
+          boxarm = hardwareMap.servo.get("boxarm");
+//        telemetry.addData("servoposition", boxarm.getPosition());
+//        boxarm.setPosition(0.55);
+//        telemetry.addData("servoposition", boxarm.getPosition());
+
     }
 
     @Override
     public void loop() {
         if (gamepad2.y) {
-            setBoxMoverForward();
+           telemetry.addData("y position",gamepad2.y);
+            boxarm.setPosition(0.8);
         } else if (gamepad2.a) {
-            setBoxMoverBackward();
+            telemetry.addData("a position", gamepad2.a);
+            boxarm.setPosition(0.3);
         }
     }
 
-    private void setBoxMoverForward() {
-
-        telemetry.addData("while forward current Position", boxmover.getPosition());
-        boxMoverPosition = (double) Math.abs(boxMoverPosition + 0.0055f);
-        telemetry.addData("new Forward Position", boxMoverPosition);
-        if (boxMoverPosition >= 0.8) {
-            boxMoverPosition = 0.8f;
-        }
-        boxmover.setPosition(boxMoverPosition);
-    }
-
-    private void setBoxMoverBackward() {
-        telemetry.addData("while backword current Position", boxmover.getPosition());
-        boxMoverPosition = (double) Math.abs(boxMoverPosition - 0.0055f);
-        telemetry.addData("new Backward Position", boxMoverPosition);
-        if (boxMoverPosition <= 0.3) {
-            boxMoverPosition = 0.3f;
-        }
-        boxmover.setPosition(boxMoverPosition);
-    }
+//    private void setBoxArmForward() {
+//        telemetry.addData("while forward current Position", boxarm.getPosition());
+//        boxarmPosition = (double) Math.abs(boxarmPosition + 0.0055f);
+//        telemetry.addData("new Forward Position", boxarmPosition);
+//        if (boxarmPosition >= 0.8) {
+//            boxarmPosition = 0.8f;
+//        }
+//        boxarm.setPosition(boxarmPosition);
+//    }
+//
+//    private void setBoxArmBackward() {
+//        telemetry.addData("while backword current Position", boxarm.getPosition());
+//        boxarmPosition = (double) Math.abs(boxarmPosition - 0.0055f);
+//        telemetry.addData("new Backward Position", boxarmPosition);
+//        if (boxarmPosition <= 0.3) {
+//            boxarmPosition = 0.3f;
+//        }
+//        boxarm.setPosition(boxarmPosition);
+//    }
 }
 
 
