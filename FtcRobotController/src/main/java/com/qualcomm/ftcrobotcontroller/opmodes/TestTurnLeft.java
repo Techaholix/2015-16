@@ -21,7 +21,7 @@ public class TestTurnLeft extends OpMode {
         dcfrontleft = hardwareMap.dcMotor.get("dc_front_left");
         dcbackright = hardwareMap.dcMotor.get("dc_back_right");
         dcbackleft = hardwareMap.dcMotor.get("dc_back_left");
-        dcfrontright.setTargetPosition(6000);
+        dcfrontright.setTargetPosition(5000);
     }
 
     @Override
@@ -31,6 +31,7 @@ public class TestTurnLeft extends OpMode {
             dcfrontleft.setPower(0.2 * -1);
             dcbackleft.setPower(0.2 * -1);
             dcbackright.setPower((BASESPEED - SPEEDDELTA) *-1);
+
         }else {
             dcbackright.setPower(0.0);
             dcbackleft.setPower(0.0);
